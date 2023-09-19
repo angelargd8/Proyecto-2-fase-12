@@ -81,7 +81,7 @@ int main(){
 	double total_t;
 
     int NumDepartamentos = 22;
-    //supongo que aquí va lo del tiempo jiji
+    //supongo que aquí va lo del tiempo jijija
     cout << "xd "<< Votos(NumDepartamentos) << endl;
 
     total_t = difftime(end_t,start_t)/CLOCKS_PER_SEC;

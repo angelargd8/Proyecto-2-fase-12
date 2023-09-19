@@ -16,9 +16,10 @@
 #include <iostream>     //cout, cin, endl
 #include <pthread.h>	//pthread_
 #include <omp.h>
-#include <time.h>
+#include <ctime>
 
 using namespace std; //para no escribir en todo std::
+clock_t start_t, end_t;
 
 //----funciones----
 
@@ -27,6 +28,9 @@ unsigned int Votos(unsigned int NDepartamentos){
     
     int VotoT=0;
     int VotoDt=0;
+    string departamentos[] = {"Alta Verapaz", "Baja Verapaz", "Chimaltenango", "Chiquimula", "El Progreso", "Escuintla", "Ciudad de Guatemala", "Huehuetenango", "Izabal",
+        "Jalapa", "Jutiapa", "Peten", "Quetzaltenango", "Quiche", "Retalhuleu", "Sacatepequez", "San Marcos", "Santa Rosa", "Solola", "Suchitepequez", "Totonicapan", "Zacapa"
+    };
     
     //esto es lo de allocate que es lo de new, para como asignar los cosos en la memoria
     int* votos=new int[NDepartamentos]; //no se si esta bien, alguien revise xd
@@ -37,11 +41,13 @@ unsigned int Votos(unsigned int NDepartamentos){
         #pragma omp ordered
         std::cout << "Thread " << omp_get_thread_num() << " is processing iteration " << i << std::endl;
     
+        start_t = clock(); //Se activa el contador de tiempo después de haber pedido los votos que hubo en cada departamento
+
         #pragma omp critical
             {
                 //pedir el numero de votos del departamento 
                 //VotoDt
-                cout<<"Ingrese el valor total de votos del departamento: ";
+                cout<<"Ingrese el valor total de votos de "<<departamentos[i]<<": ";
                 cin>>VotoDt;
                 VotoT += VotoDt; //esto no deberia de estar asi
                 //aqui es donde se supone que guarda los votos en el array
@@ -51,6 +57,7 @@ unsigned int Votos(unsigned int NDepartamentos){
         
         }
 
+    end_t = clock(); //Se termina el conteo del tiempo
 
 
     //la suma de todos los votos del vector (no lo he probado, xq falta lo de allocate, pero tengo fe)
@@ -70,10 +77,16 @@ unsigned int Votos(unsigned int NDepartamentos){
 
 //----main----
 int main(){
+
+	double total_t;
+
     int NumDepartamentos = 22;
     //supongo que aquí va lo del tiempo jiji
     cout << "xd "<< Votos(NumDepartamentos) << endl;
-    
+
+    total_t = difftime(end_t,start_t)/CLOCKS_PER_SEC;
+    cout << "Tiempo de trabajo: " << total_t << endl;
+
     //mostrar el tiempo 
     return 0;
 

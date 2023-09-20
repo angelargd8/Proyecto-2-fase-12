@@ -6,7 +6,7 @@
  *              - Diego Garcia #22404         
  *              - Jose Rodriguez #21060
  * 
- * Implementar concepto de hilos, loops paralelos, hilos privados, allocate y reduction, 
+ * Implementar concepto de hilos, loops paralelos, allocate y reduction 
  * 
  * **/
 
@@ -19,7 +19,7 @@
 #include <ctime>
 
 //esto es lo de allocate que es lo de new, para como asignar los cosos en la memoria
-    int *votos; 
+int *votos; 
 
 
 using namespace std; //para no escribir en todo std::
@@ -69,7 +69,6 @@ unsigned int Votos(unsigned int NDepartamentos){
         cout << "Se procesaron "<<  votos[i] << " en el departamento "<< departamentos[i] <<endl;    
     }
 
-    //la suma de todos los votos del vector (no lo he probado, xq falta lo de allocate, pero tengo fe)
     printf("\n");
     #pragma omp parallel for reduction(+:VotoT)
     for (int i = 0; i < NDepartamentos; ++i) {
@@ -89,7 +88,6 @@ int main(){
 	double total_t;
 
     int NumDepartamentos = 22;
-    //supongo que aquí va lo del tiempo jijija
     cout << Votos(NumDepartamentos) << " votos totales en el pais "<< endl;
 
     total_t = difftime(end_t,start_t)/CLOCKS_PER_SEC;

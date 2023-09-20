@@ -18,6 +18,10 @@
 #include <omp.h>
 #include <ctime>
 
+//esto es lo de allocate que es lo de new, para como asignar los cosos en la memoria
+    int *votos; 
+
+
 using namespace std; //para no escribir en todo std::
 clock_t start_t, end_t;
 
@@ -28,14 +32,15 @@ unsigned int Votos(unsigned int NDepartamentos){
     
     int VotoT=0;
     int VotoDt=0;
+    votos = new int[NDepartamentos]; //Crear arreglo
     string departamentos[] = {"Alta Verapaz", "Baja Verapaz", "Chimaltenango", "Chiquimula", "El Progreso", "Escuintla", "Ciudad de Guatemala", "Huehuetenango", "Izabal",
         "Jalapa", "Jutiapa", "Peten", "Quetzaltenango", "Quiche", "Retalhuleu", "Sacatepequez", "San Marcos", "Santa Rosa", "Solola", "Suchitepequez", "Totonicapan", "Zacapa"
     };
     
-    //esto es lo de allocate que es lo de new, para como asignar los cosos en la memoria
     string *departamentos_dir; // se declara el puntero 
     departamentos_dir = &departamentos[0]; // el puntero apunta al primer elemento del array 
-
+    
+    
 
     #pragma omp parallel for ordered
     for (int i=0; i <NDepartamentos; ++i){
@@ -51,9 +56,9 @@ unsigned int Votos(unsigned int NDepartamentos){
                 cout<<"Ingrese el valor total de votos de "<< *departamentos_dir <<": ";
                 departamentos_dir++;
                 cin>>VotoDt;
-                VotoT += VotoDt; //esto no deberia de estar asi
+                //VotoT += VotoDt; //esto no deberia de estar asi
                 //aqui es donde se supone que guarda los votos en el array
-
+                votos[i] = VotoDt;
                 
             }
         
@@ -64,12 +69,11 @@ unsigned int Votos(unsigned int NDepartamentos){
 
     //la suma de todos los votos del vector (no lo he probado, xq falta lo de allocate, pero tengo fe)
 
-    /*#pragma omp parallel for reduction(+:VotoT)
+    #pragma omp parallel for reduction(+:VotoT)
     for (int i = 0; i < NDepartamentos; ++i) {
         VotoT += votos[i]; // Sumar todos los votos
     }
-    delete[] votos;// no se si esto va aqui la verdad
-    */
+    
 
     return VotoT;
 
@@ -88,6 +92,7 @@ int main(){
 
     total_t = difftime(end_t,start_t)/CLOCKS_PER_SEC;
     cout << "Tiempo de trabajo: " << total_t << endl;
+    delete[] votos;
 
     //mostrar el tiempo 
     return 0;

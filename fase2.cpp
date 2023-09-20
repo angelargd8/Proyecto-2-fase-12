@@ -33,7 +33,8 @@ unsigned int Votos(unsigned int NDepartamentos){
     };
     
     //esto es lo de allocate que es lo de new, para como asignar los cosos en la memoria
-    int* votos=new int[NDepartamentos]; //no se si esta bien, alguien revise xd
+    string *departamentos_dir; // se declara el puntero 
+    departamentos_dir = &departamentos[0]; // el puntero apunta al primer elemento del array 
 
 
     #pragma omp parallel for ordered
@@ -47,7 +48,8 @@ unsigned int Votos(unsigned int NDepartamentos){
             {
                 //pedir el numero de votos del departamento 
                 //VotoDt
-                cout<<"Ingrese el valor total de votos de "<<departamentos[i]<<": ";
+                cout<<"Ingrese el valor total de votos de "<< *departamentos_dir <<": ";
+                departamentos_dir++;
                 cin>>VotoDt;
                 VotoT += VotoDt; //esto no deberia de estar asi
                 //aqui es donde se supone que guarda los votos en el array

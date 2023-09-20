@@ -64,16 +64,18 @@ unsigned int Votos(unsigned int NDepartamentos){
         
         }
 
-    end_t = clock(); //Se termina el conteo del tiempo
+    printf("\n---------------------------------------------------------------------------------------------------------------------------\n");
 
+    end_t = clock(); //Se termina el conteo del tiempo
+    for (int i = 0; i < NDepartamentos; ++i) {
+        cout << "Se procesaron "<<  votos[i] << " en el departamento "<< departamentos[i] <<endl;    
+    }
 
     //la suma de todos los votos del vector (no lo he probado, xq falta lo de allocate, pero tengo fe)
-    printf("\n\n");
+    printf("\n");
     #pragma omp parallel for reduction(+:VotoT)
     for (int i = 0; i < NDepartamentos; ++i) {
-        cout << "Se procesaron "<<  votos[i] << " en el departamento "<< departamentos[i] <<endl;
         VotoT += votos[i]; // Sumar todos los votos
-    
     }
     
 
@@ -90,7 +92,7 @@ int main(){
 
     int NumDepartamentos = 22;
     //supongo que aquí va lo del tiempo jijija
-    cout << Votos(NumDepartamentos) << " -> votos totales "<< endl;
+    cout << Votos(NumDepartamentos) << " votos totales en el pais "<< endl;
 
     total_t = difftime(end_t,start_t)/CLOCKS_PER_SEC;
     cout << "Tiempo de trabajo: " << total_t << endl;

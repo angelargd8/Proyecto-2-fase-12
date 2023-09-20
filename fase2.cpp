@@ -56,8 +56,6 @@ unsigned int Votos(unsigned int NDepartamentos){
                 cout<<"Ingrese el valor total de votos de "<< *departamentos_dir <<": ";
                 departamentos_dir++;
                 cin>>VotoDt;
-                //VotoT += VotoDt; //esto no deberia de estar asi
-                //aqui es donde se supone que guarda los votos en el array
                 votos[i] = VotoDt;
                 
             }
